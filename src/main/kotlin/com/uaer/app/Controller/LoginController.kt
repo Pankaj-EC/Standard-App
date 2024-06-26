@@ -2,10 +2,7 @@ package com.uaer.app.Controller
 
 import com.uaer.app.Database.Models.registerRecode
 import com.uaer.app.Models.Common.OTPSent
-import com.uaer.app.Models.Request.loginRequest
-import com.uaer.app.Models.Request.signUpReqVerify
-import com.uaer.app.Models.Request.signUpRequest
-import com.uaer.app.Models.Request.updateRequest
+import com.uaer.app.Models.Request.*
 import com.uaer.app.Models.Response.loginResponse
 import com.uaer.app.Models.Response.signUpResponse
 import com.uaer.app.Service.LoginService
@@ -38,7 +35,6 @@ class LoginController(
         return loginService.signUpVerifyOtp(signUpReqVerify)
     }
 
-
     @PostMapping("/update")
     fun updateUser(@RequestBody updateRequest: updateRequest):signUpResponse{
         return loginService.updateUser(updateRequest)
@@ -48,5 +44,16 @@ class LoginController(
     fun updateUser():registerRecode{
         return loginService.getUser()
     }
+
+    @PostMapping("/passwordUpdate")
+    fun updatePasswordSendOtp(@RequestBody passUpdateReqest: passUpdateReqest):OTPSent{
+        return loginService.updatePasswordSendOtp(passUpdateReqest)
+    }
+
+    @PostMapping("/passwordUpdate/verify")
+    fun updatePasswordVerifyOtp(@RequestBody passUpdateReqVerify: passUpdateReqVerify):signUpResponse{
+        return loginService.updatePasswordVerifyOtp(passUpdateReqVerify)
+    }
+
 
 }

@@ -6,10 +6,7 @@ import com.uaer.app.Exceptions.AppException
 import com.uaer.app.Exceptions.AppStatusCodes
 import com.uaer.app.Models.Common.OTPSent
 import com.uaer.app.Models.Common.userDetails
-import com.uaer.app.Models.Request.loginRequest
-import com.uaer.app.Models.Request.signUpReqVerify
-import com.uaer.app.Models.Request.signUpRequest
-import com.uaer.app.Models.Request.updateRequest
+import com.uaer.app.Models.Request.*
 import com.uaer.app.Models.Response.loginResponse
 import com.uaer.app.Models.Response.signUpResponse
 import com.uaer.app.Security.JwtUtils
@@ -100,7 +97,7 @@ class LoginServiceImpl(
             throw AppException(AppStatusCodes.USER_ALREADY_REGISTERED)
         }
         val userId = generateNewUserId()
-        otpService.validateOTPObject(signUpReqVerify.email, signUpReqVerify.otp, signUpReqVerify, userId)
+        otpService.validateOTPObject(signUpReqVerify.email, signUpReqVerify.otp, signUpReqVerify, userId,"R")
         val registerRecode = registerRecode(
                 userId = userId,
                 password = passwordEncoder.encode(signUpReqVerify.password),
@@ -130,6 +127,34 @@ class LoginServiceImpl(
             throw AppException(AppStatusCodes.USER_NOT_EXIST)
         }
        return registerRecode
+    }
+
+    override fun updatePasswordSendOtp(passUpdateReqest: passUpdateReqest): OTPSent {
+        val userId = authenticationService.user.userId
+        val registerRecode = registerRecodeRepository.findById(userId).orElseThrow {
+            throw AppException(AppStatusCodes.USER_NOT_EXIST)
+        }
+        if(!commonUtils.isValidPassword(passUpdateReqest.password)){
+            throw AppException(AppStatusCodes.INVALID_PASSWORD)
+        }
+
+        //Send OTP
+        return otpService.sendOTP(registerRecode.email, passUpdateReqest, "PU")
+    }
+
+    override fun updatePasswordVerifyOtp(passUpdateReqVerify: passUpdateReqVerify): signUpResponse {
+        val userId = authenticationService.user.userId
+        val registerRecode = registerRecodeRepository.findById(userId).orElseThrow {
+            throw AppException(AppStatusCodes.USER_NOT_EXIST)
+        }
+        otpService.validateOTPObject(registerRecode.email, passUpdateReqVerify.otp, passUpdateReqVerify, userId, "PU")
+        if(!commonUtils.isValidPassword(passUpdateReqVerify.password)){
+            throw AppException(AppStatusCodes.INVALID_PASSWORD)
+        }
+        registerRecode.password = passwordEncoder.encode(passUpdateReqVerify.password)
+        registerRecode.lastUpdateTime = LocalDateTime.now()
+        registerRecodeRepository.save(registerRecode)
+        return signUpResponse("User $userId password updated successfully")
     }
 
 }
