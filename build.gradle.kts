@@ -38,6 +38,8 @@ dependencies {
 	implementation ("org.postgresql:postgresql:42.2.23")
 	//my SQl
 	implementation("mysql:mysql-connector-java:8.0.32")
+	//Mail
+	implementation ("org.springframework.boot:spring-boot-starter-mail")
 
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")

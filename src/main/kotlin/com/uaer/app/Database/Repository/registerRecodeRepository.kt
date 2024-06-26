@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface registerRecodeRepository:JpaRepository<registerRecode,String> {
+    fun findTopByOrderByUserIdDesc(): registerRecode?
+    fun findByEmail(email: String): registerRecode?
 }

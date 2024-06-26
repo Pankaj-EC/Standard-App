@@ -1,6 +1,7 @@
 package com.uaer.app.Utils.app
 
 import org.springframework.stereotype.Service
+import kotlin.random.Random
 
 @Service
 class CommonUtils {
@@ -34,6 +35,8 @@ class CommonUtils {
         return true
     }
 
-
-
+    fun generateOtp(): String {
+        val otp = Random.nextInt(100000, 1000000) // Generates a random number between 100000 and 999999 (inclusive)
+        return otp.toString()
+    }
 }

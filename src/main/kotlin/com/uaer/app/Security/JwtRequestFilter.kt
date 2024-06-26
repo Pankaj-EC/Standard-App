@@ -35,7 +35,7 @@ class JwtRequestFilter(
         val requestURI = request.requestURI
 
         // Skip filter for login and signup endpoints
-        if (requestURI == "/api/login" || requestURI == "/api/signUp") {
+        if (requestURI == "/api/login" || requestURI == "/api/signUp" || requestURI == "/api/signUp/verify") {
             filterChain.doFilter(request, response)
             return
         }

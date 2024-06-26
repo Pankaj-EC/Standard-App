@@ -22,6 +22,12 @@ class AppStatusCodes {
         val USER_ALREADY_REGISTERED :  StatusCode = createResponseCode(2001,"USER ALREADY EXIST")
         val WRONG_PASSWORD   :  StatusCode = createResponseCode(2001,"WRONG PASSWORD")
 
+        val MAX_OTP_SENT   :  StatusCode = createResponseCode(2001,"Maximum OTP attempts exceeded.")
+        val INVALID_OTP_REQUEST   :  StatusCode = createResponseCode(2001,"Invalid OTP Request.")
+        val INVALID_OTP_FOR_REQUEST :  StatusCode = createResponseCode(2001,"OTP does not belong to this request.")
+        val INVALID_OTP :  StatusCode = createResponseCode(2001,"Wrong OTP Entered.")
+
+
 
     }
 }

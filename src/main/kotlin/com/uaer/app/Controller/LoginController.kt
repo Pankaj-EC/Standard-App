@@ -1,12 +1,16 @@
 package com.uaer.app.Controller
 
+import com.uaer.app.Database.Models.registerRecode
+import com.uaer.app.Models.Common.OTPSent
 import com.uaer.app.Models.Request.loginRequest
+import com.uaer.app.Models.Request.signUpReqVerify
 import com.uaer.app.Models.Request.signUpRequest
 import com.uaer.app.Models.Request.updateRequest
 import com.uaer.app.Models.Response.loginResponse
 import com.uaer.app.Models.Response.signUpResponse
 import com.uaer.app.Service.LoginService
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -25,13 +29,24 @@ class LoginController(
     }
 
     @PostMapping("/signUp")
-    fun signUp(@RequestBody signUpRequest: signUpRequest):signUpResponse{
-        return loginService.userSignUp(signUpRequest)
+    fun signUpSendOtp(@RequestBody signUpRequest: signUpRequest):OTPSent{
+        return loginService.signUpSendOtp(signUpRequest)
     }
+
+    @PostMapping("/signUp/verify")
+    fun signUpVerifyOtp(@RequestBody signUpReqVerify: signUpReqVerify):signUpResponse{
+        return loginService.signUpVerifyOtp(signUpReqVerify)
+    }
+
 
     @PostMapping("/update")
     fun updateUser(@RequestBody updateRequest: updateRequest):signUpResponse{
         return loginService.updateUser(updateRequest)
+    }
+
+    @GetMapping("/getUser")
+    fun updateUser():registerRecode{
+        return loginService.getUser()
     }
 
 }
