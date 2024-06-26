@@ -63,6 +63,10 @@ class LoginServiceImpl(
         if(!commonUtils.isValidEmail(signUpRequest.email)){
             throw AppException(AppStatusCodes.INVALID_EMAIL)
         }
+        val user = registerRecodeRepository.findById(signUpRequest.email)
+        if(!user.isEmpty){
+            throw AppException(AppStatusCodes.USER_ALREADY_REGISTERED)
+        }
         val registerRecode = registerRecode(
             userId = signUpRequest.email,
             password = passwordEncoder.encode(signUpRequest.password),
@@ -74,23 +78,16 @@ class LoginServiceImpl(
 
     override fun updateUser(updateRequest: updateRequest): signUpResponse {
         val userId = authenticationService.user.userId
-        val user = registerRecodeRepository.findById(userId).orElseThrow {
+        val registerRecode = registerRecodeRepository.findById(userId).orElseThrow {
             throw AppException(AppStatusCodes.USER_NOT_EXIST)
         }
-
-        val registerRecode = registerRecode(
-            // Update user information based on updateRequest
-             name = updateRequest.name
-            ,mobile = updateRequest.mobile
-            ,address = updateRequest.address
-            ,pincode = updateRequest.pincode
-            ,lastUpdateTime = LocalDateTime.now()
-        )
-
-        // Save the updated user
+        registerRecode.name = updateRequest.name
+        registerRecode.mobile = updateRequest.mobile
+        registerRecode.address = updateRequest.address
+        registerRecode.pincode = updateRequest.pincode
+        registerRecode.lastUpdateTime = LocalDateTime.now()
         registerRecodeRepository.save(registerRecode)
-
-        return signUpResponse("User information updated successfully")
+        return signUpResponse("User $userId information updated successfully")
     }
 
 }

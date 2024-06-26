@@ -19,6 +19,7 @@ class AppStatusCodes {
         val INVALID_EMAIL    :  StatusCode = createResponseCode(2000,"INVALID EMAIL ID")
         val INVALID_PASSWORD :  StatusCode = createResponseCode(2001,"INVALID PASSWORD")
         val USER_NOT_EXIST   :  StatusCode = createResponseCode(2001,"USER NOT EXIST")
+        val USER_ALREADY_REGISTERED :  StatusCode = createResponseCode(2001,"USER ALREADY EXIST")
         val WRONG_PASSWORD   :  StatusCode = createResponseCode(2001,"WRONG PASSWORD")
 
 

@@ -36,7 +36,8 @@ dependencies {
 	implementation ("com.oracle.database.jdbc:ojdbc8:19.12.0.0")
 	//PostgreDB
 	implementation ("org.postgresql:postgresql:42.2.23")
-
+	//my SQl
+	implementation("mysql:mysql-connector-java:8.0.32")
 
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
